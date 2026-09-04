@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body hidden>
+    <div id="container" class="container">
+      <div
+        class="notification"
+        v-show="showNotification"
+      >
+        <span class="icon">💬</span>
+        <span class="comment-count">{{ commentCount }}</span>
+        <span class="comment-text">{{ commentText }}</span>
+      </div>
+    </div>
+
+    <script src="../__origin/js/vue3.min.js"></script>
+    <script src="../__origin/js/onesdk.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
