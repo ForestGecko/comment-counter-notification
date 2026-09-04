@@ -1,0 +1,2 @@
+# onecommeOBStools
+onecommeをobsで使用するときに使えるファイル群。配信画面にコメントマーク、数を一時表示。
