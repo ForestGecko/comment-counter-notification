@@ -1,0 +1,51 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const Counter = require('../counter');
+const c = (id, frame = 'live') => ({ id: frame, service: 'youtube', data: { id } });
+const meta = viewer => ({ service: { id: 'live', enabled: true }, data: { viewer } });
+test('視聴者数の初期値、増減、ゼロ、取得不能、復帰', () => {
+  const model = new Counter();
+  assert.equal(model.meta(meta('3')), null);
+  assert.equal(model.meta(meta(4)), 'up');
+  assert.equal(model.meta(meta(4)), null);
+  assert.equal(model.meta(meta('0')), 'down');
+  assert.equal(model.viewers, 0);
+  assert.equal(model.meta(meta('')), null);
+  assert.equal(model.viewers, null);
+  assert.equal(model.meta(meta('1,234')), null);
+  assert.equal(model.viewers, 1234);
+  assert.equal(model.meta(meta('1.2K')), null);
+  assert.equal(model.viewers, null);
+});
+test('対象枠を固定し他枠を混ぜない', () => {
+  const model = new Counter();
+  model.services([{ id: 'off', enabled: false }, { id: 'live', enabled: true, meta: { viewer: 3 } }]);
+  model.receive([]);
+  assert.equal(model.receive([c('1', 'other')]), null);
+  assert.equal(model.comments, 0);
+  assert.equal(model.meta({ service: { id: 'other' }, data: { viewer: 99 } }), null);
+  assert.equal(model.viewers, 3);
+  assert.equal(model.receive([c('1')]), 'comment');
+});
+test('初回履歴は無音、累計は保持、再送・履歴切れで重複しない', () => {
+  const model = new Counter('live');
+  assert.equal(model.receive([c('a'), c('b')]), null);
+  assert.equal(model.comments, 2);
+  assert.equal(model.receive([c('a'), c('b'), c('c')]), 'comment');
+  assert.equal(model.receive([c('c')]), null);
+  assert.equal(model.receive([c('a'), c('b'), c('c')]), null);
+  assert.equal(model.comments, 3);
+  assert.equal(model.receive([c('c'), c('d'), c('e')]), 'comment');
+  assert.equal(model.comments, 5);
+  model.clear();
+  assert.equal(model.comments, 0);
+  assert.equal(model.receive([c('a')]), 'comment');
+});
+test('配信枠無効化・メタデータ欠落で架空のゼロ通知を出さない', () => {
+  const model = new Counter('live');
+  model.meta(meta(3));
+  assert.equal(model.meta({ service: { id: 'live' }, data: { title: 'test' } }), null);
+  assert.equal(model.viewers, 3);
+  assert.equal(model.services([]), null);
+  assert.equal(model.viewers, null);
+});
