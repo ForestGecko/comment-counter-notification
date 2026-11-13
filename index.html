@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="referrer" content="no-referrer" />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-
-  <body hidden>
-    <div id="container" class="container">
-      <div
-        class="notification"
-        v-show="showNotification"
-      >
-        <span class="icon">💬</span>
-        <span class="comment-count">{{ commentCount }}</span>
-        <span class="comment-text">{{ commentText }}</span>
-      </div>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PS4風 ON AIR 通知</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <aside id="notification" aria-label="配信状況" aria-hidden="true">
+    <div class="heading"><i class="live-dot"></i><span>ON AIR</span></div>
+    <div class="counts">
+      <div class="metric" aria-label="視聴者数"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="6" r="4"/><path d="M5 22v-4c0-4 3-7 7-7s7 3 7 7v4z"/></svg><span id="viewer-count">—</span></div>
+      <div class="metric" aria-label="累計コメント数"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v13H11l-6 5v-5H3z"/></svg><span id="comment-count">0</span></div>
     </div>
-
-    <script src="../__origin/js/vue3.min.js"></script>
-    <script src="../__origin/js/onesdk.js"></script>
-    <script src="./script.js"></script>
-  </body>
+  </aside>
+  <div id="preview-controls" hidden>
+    <p>プレビュー（実際の配信データには接続しません）</p>
+    <button data-event="up">視聴者 +1</button><button data-event="down">視聴者 −1</button><button data-event="comment">コメント +1</button><button data-event="sound">通知音テスト</button>
+  </div>
+  <script src="./config.js"></script>
+  <script src="./counter.js"></script>
+  <script src="../__origin/js/onesdk.js"></script>
+  <script src="./script.js"></script>
+</body>
 </html>

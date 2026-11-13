@@ -1,6 +1,6 @@
 {
-  "name": "コメント数通知",
-  "author": "自作",
-  "link": "https://onecomme.com",
-  "description": "💬 アイコンと累計コメント数を一時表示するテンプレート"
+  "name": "PS4風 ON AIR 通知",
+  "author": "ForestGecko",
+  "link": "https://github.com/ForestGecko/comment-counter-notification",
+  "description": "視聴者数の増減・新着コメントを右上に5秒表示し、通知音でお知らせします。"
 }

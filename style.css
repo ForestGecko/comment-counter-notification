@@ -1,74 +1,21 @@
-@import url("../__origin/css/common.css");
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-
-  width: 100%;
-  height: 100%;
-
-  background: transparent;
-
-  overflow: hidden;
-}
-
-#container {
-  width: 100%;
-  height: 100%;
-}
-
-.notification {
-  position: fixed;
-
-  top: 30px;
-  right: 30px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-
-  padding: 15px 25px;
-
-  background: rgba(0, 0, 0, 0.75);
-
-  border-radius: 30px;
-
-  color: #ffffff;
-
-  font-family: sans-serif;
-
-  font-weight: bold;
-
-  line-height: 1;
-
-  white-space: nowrap;
-
+:root { --top: 60px; --right: 94px; --scale: 1; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
+#notification {
+  position: fixed; top: var(--top); right: var(--right); width: 300px;
+  color: #eee; background: linear-gradient(110deg, rgba(5,5,5,.92), rgba(12,10,10,.85));
+  border: 1px solid #3a302b; box-shadow: 0 1px 4px #0008;
+  font: 26px Arial, sans-serif; transform: scale(var(--scale)); transform-origin: top right;
+  opacity: 0; visibility: hidden; transition: opacity 180ms ease, visibility 180ms;
   pointer-events: none;
 }
-
-.icon {
-  font-size: 56px;
-  line-height: 1;
-}
-
-.comment-count {
-  font-size: 56px;
-  line-height: 1;
-}
-
-.comment-text {
-  font-size: 32px;
-  line-height: 1;
-
-  color: #ffffff;
-
-  font-weight: 700;
-
-  max-width: 600px;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+#notification.visible { opacity: 1; visibility: visible; }
+.heading { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 13px; color: #df443a; font-size: 32px; border-bottom: 1px solid #635247; text-shadow: 0 0 3px #e33a; }
+.live-dot { width: 16px; height: 16px; border-radius: 50%; background: #e44036; box-shadow: 0 0 5px #e33a; }
+.counts { display: flex; align-items: center; min-height: 39px; gap: 44px; padding: 4px 13px; background: repeating-linear-gradient(0deg, #ffffff03 0 1px, transparent 1px 4px); }
+.metric { display: flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; }
+.metric svg { width: 20px; height: 22px; fill: currentColor; flex-shrink: 0; }
+body.preview { background: radial-gradient(ellipse at 30% 70%, #4a5141, #1e282b); }
+#preview-controls { position: fixed; bottom: 25px; left: 25px; color: white; font: 16px sans-serif; }
+#preview-controls[hidden] { display: none; }
+button { padding: 10px 15px; margin: 4px; cursor: pointer; }
